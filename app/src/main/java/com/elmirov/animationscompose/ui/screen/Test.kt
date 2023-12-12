@@ -1,5 +1,6 @@
 package com.elmirov.animationscompose.ui.screen
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.foundation.background
@@ -94,9 +95,14 @@ fun Test() {
             borderWidth = borderWidth
         )
 
+        var isColored by remember {
+            mutableStateOf(false)
+        }
+        val color by animateColorAsState(targetValue = if (isColored) Color.Magenta else Color.Blue)
+
         Button(
             modifier = Modifier.fillMaxWidth(),
-            onClick = { }
+            onClick = { isColored = !isColored }
         ) {
             Text(
                 text = "Animate color",
@@ -104,6 +110,7 @@ fun Test() {
         }
         AnimatedContainer(
             text = "Color",
+            color = color,
         )
 
         Button(
@@ -127,12 +134,13 @@ private fun AnimatedContainer(
     //radius: Dp = 8.dp,
     radiusPercent: Int = 4,
     borderWidth: Dp = 0.dp,
+    color: Color = Color.Blue,
 ) {
     Box(
         modifier = Modifier
             .clip(RoundedCornerShape(radiusPercent))
             .border(width = borderWidth, color = Color.Black)
-            .background(Color.Blue)
+            .background(color = color)
             .size(size),
         contentAlignment = Alignment.Center
     ) {
