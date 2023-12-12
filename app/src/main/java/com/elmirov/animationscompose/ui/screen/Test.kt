@@ -2,9 +2,11 @@ package com.elmirov.animationscompose.ui.screen
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.EaseOutBounce
+import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.animateIntAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -68,7 +70,13 @@ fun Test() {
             mutableStateOf(true)
         }
         //val radius by animateDpAsState(targetValue = if (isRectangle) 8.dp else 96.dp)
-        val radiusPercent by animateIntAsState(targetValue = if (isRectangle) 4 else 48)
+        val radiusPercent by animateIntAsState(
+            targetValue = if (isRectangle) 20 else 48, //TODO аккуратнее с %, так как может выйти за пределы [0, 100]
+            animationSpec = spring(
+                dampingRatio = Spring.DampingRatioHighBouncy,
+                stiffness = Spring.StiffnessMediumLow,
+            )
+        )
 
         Button(
             modifier = Modifier.fillMaxWidth(),
