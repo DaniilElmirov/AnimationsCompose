@@ -2,10 +2,14 @@ package com.elmirov.animationscompose.ui.screen
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.EaseOutBounce
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.animateIntAsState
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -131,7 +135,15 @@ fun Test() {
         var isTransparent by remember {
             mutableStateOf(false)
         }
-        val transparent by animateFloatAsState(targetValue = if (isTransparent) 0f else 1f)
+        val infiniteTransition = rememberInfiniteTransition()
+        val transparent by infiniteTransition.animateFloat(
+            initialValue = 1f,
+            targetValue = 0f,
+            animationSpec = infiniteRepeatable(
+                animation = tween(durationMillis = 3000, easing = LinearEasing),
+                repeatMode = RepeatMode.Reverse
+            )
+        )
 
         Button(
             modifier = Modifier.fillMaxWidth(),
