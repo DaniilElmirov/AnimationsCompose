@@ -1,9 +1,11 @@
 package com.elmirov.animationscompose.ui.screen
 
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.EaseOutBounce
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.animateIntAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -44,7 +46,10 @@ fun Test() {
         var isIncreased by remember {
             mutableStateOf(true)
         }
-        val size by animateDpAsState(targetValue = if (isIncreased) 200.dp else 100.dp)
+        val size by animateDpAsState(
+            targetValue = if (isIncreased) 200.dp else 100.dp,
+            animationSpec = tween(durationMillis = 2000, delayMillis = 1000, easing = EaseOutBounce)
+        )
 
         Button(
             modifier = Modifier.fillMaxWidth(),
