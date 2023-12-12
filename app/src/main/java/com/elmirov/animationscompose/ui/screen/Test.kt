@@ -1,6 +1,7 @@
 package com.elmirov.animationscompose.ui.screen
 
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -54,9 +55,15 @@ fun Test() {
             size = size,
         )
 
+        var isRectangle by remember {
+            mutableStateOf(true)
+        }
+        //val radius by animateDpAsState(targetValue = if (isRectangle) 8.dp else 96.dp)
+        val radiusPercent by animateIntAsState(targetValue = if (isRectangle) 4 else 48)
+
         Button(
             modifier = Modifier.fillMaxWidth(),
-            onClick = { }
+            onClick = { isRectangle = !isRectangle }
         ) {
             Text(
                 text = "Animate shape",
@@ -64,6 +71,8 @@ fun Test() {
         }
         AnimatedContainer(
             text = "Shape",
+            //radius = radius,
+            radiusPercent = radiusPercent,
         )
 
         Button(
@@ -108,10 +117,12 @@ fun Test() {
 private fun AnimatedContainer(
     text: String,
     size: Dp = 200.dp,
+    //radius: Dp = 8.dp,
+    radiusPercent: Int = 4,
 ) {
     Box(
         modifier = Modifier
-            .clip(RoundedCornerShape(8.dp))
+            .clip(RoundedCornerShape(radiusPercent))
             .background(Color.Blue)
             .size(size),
         contentAlignment = Alignment.Center
