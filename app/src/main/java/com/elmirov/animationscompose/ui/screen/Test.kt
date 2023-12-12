@@ -3,6 +3,7 @@ package com.elmirov.animationscompose.ui.screen
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -75,9 +76,14 @@ fun Test() {
             radiusPercent = radiusPercent,
         )
 
+        var isBordered by remember {
+            mutableStateOf(false)
+        }
+        val borderWidth by animateDpAsState(targetValue = if (isBordered) 4.dp else 0.dp)
+
         Button(
             modifier = Modifier.fillMaxWidth(),
-            onClick = { }
+            onClick = { isBordered = !isBordered }
         ) {
             Text(
                 text = "Animate border",
@@ -85,6 +91,7 @@ fun Test() {
         }
         AnimatedContainer(
             text = "Border",
+            borderWidth = borderWidth
         )
 
         Button(
@@ -119,10 +126,12 @@ private fun AnimatedContainer(
     size: Dp = 200.dp,
     //radius: Dp = 8.dp,
     radiusPercent: Int = 4,
+    borderWidth: Dp = 0.dp,
 ) {
     Box(
         modifier = Modifier
             .clip(RoundedCornerShape(radiusPercent))
+            .border(width = borderWidth, color = Color.Black)
             .background(Color.Blue)
             .size(size),
         contentAlignment = Alignment.Center
